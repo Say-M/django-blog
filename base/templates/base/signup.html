@@ -93,7 +93,8 @@
   </head>
   <body class="text-center">
     <main class="form-signin w-100 m-auto">
-      <form>
+      <form action="/create-user/" method="post">
+        {% csrf_token %}
         <img
           class="mb-4"
           src="https://1000logos.net/wp-content/uploads/2017/02/Facebook-Logosu.png"
@@ -107,37 +108,46 @@
           <input
             type="text"
             class="form-control"
-            id="floatingInput"
+            id="first_name"
             placeholder="First Name"
+            name="first_name"
+            required
           />
-          <label for="floatingInput">First Name</label>
+          <label for="first_name">First Name</label>
         </div>
         <div class="form-floating">
           <input
             type="text"
             class="form-control"
-            id="floatingInput"
+            id="last_name"
             placeholder="Last Name"
+            name="last_name"
+            required
           />
-          <label for="floatingInput">Last Name</label>
+          <label for="last_name">Last Name</label>
         </div>
         <div class="form-floating">
           <input
-            type="email"
+            type="text"
             class="form-control"
-            id="floatingInput"
-            placeholder="name@example.com"
+            id="username"
+            placeholder="Enter username"
+            \
+            name="username"
+            required
           />
-          <label for="floatingInput">Email address</label>
+          <label for="username">Username</label>
         </div>
         <div class="form-floating">
           <input
             type="password"
             class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
+            id="password"
+            placeholder="Enter password"
+            name="password"
+            required
           />
-          <label for="floatingPassword">Password</label>
+          <label for="password">Password</label>
         </div>
         <a class="mb-3 d-inline-block" href="/login">Already have an account</a>
         <button class="w-100 btn btn-lg btn-primary" type="submit">
