@@ -126,6 +126,9 @@
           />
           <label for="password">Password</label>
         </div>
+        {% if messages %} {% for message in messages %}
+        <p class="text-danger">{{ message }}</p>
+        {% endfor %} {% endif %}
         <a class="mb-3 d-inline-block" href="/signup">Create an account</a>
         <button class="w-100 btn btn-lg btn-primary" type="submit">
           Sign in

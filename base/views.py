@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from .models import Blog
 
 # Create your views here.
 def homePage(request):
-    return render(request, 'base/home.html')
+    blogs = Blog.objects.all()[:9]
+    context = {
+        'blogs': blogs,
+    }
+    print(blogs)
+    return render(request, 'base/home.html', context)
 
 def loginPage(request):
     return render(request, 'base/login.html')
@@ -23,7 +29,9 @@ def blogEditPage(request, pk):
     return render(request, 'base/blogEdit.html')
 
 def blogDetails(request, pk):
-    context = {'pk': pk, 'title': 'Blog Details'}
+    blog = Blog.objects.get(id=pk)
+    blog.created_at
+    context = {'pk': pk, 'title': blog.title, 'description': blog.description, 'featured_image': blog.featured_image, 'user': blog.user}
     return render(request, 'base/blogDetails.html', context)
 
 def createUser(request):
@@ -42,6 +50,7 @@ def loginUser(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if(user is None):
+            messages.error(request, 'Invalid Credentials')
             return redirect('/login')
         else:
             login(request, user)
@@ -50,3 +59,14 @@ def loginUser(request):
 def logoutUser(request):
     logout(request)
     return redirect('/')
+
+
+def createBlog(request):
+    if(request.method == 'POST'):
+        title = request.POST['title']
+        description= request.POST['description']
+        # featured_image = request.POST['featured_image']
+        print(title, description)
+        blog = Blog(title=title, description=description, user=request.user)
+        blog.save()
+        return redirect('/blog')

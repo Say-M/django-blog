@@ -16,7 +16,8 @@
   <body>
     {% include './common/header.html' %}
     <div class="container">
-      <form action="#" method="post" class="my-5">
+      <form action="/create-blog/" method="post" class="my-5">
+        {% csrf_token %}
         <h4 class="mb-4">Create a blog</h4>
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -25,6 +26,8 @@
             class="form-control"
             id="title"
             placeholder="Enter title"
+            name="title"
+            max-length="300"
             required
           />
         </div>
@@ -35,13 +38,23 @@
             id="description"
             placeholder="Enter description"
             rows="10"
+            name="description"
+            max-length="3000"
             required
           ></textarea>
         </div>
+        {% comment %}
         <div class="mb-3">
-          <label for="featuredImage" class="form-label">Featured Image</label>
-          <input type="file" class="form-control" id="featuredImage" required />
+          <label for="featured_image" class="form-label">Featured Image</label>
+          <input
+            type="file"
+            class="form-control"
+            id="featured_image"
+            name="featured_image"
+            required
+          />
         </div>
+        {% endcomment %}
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
