@@ -16,7 +16,8 @@
   <body>
     {% include './common/header.html' %}
     <div class="container">
-      <form action="#" method="post" class="my-5">
+      <form action="" method="post" class="my-5" enctype="multipart/form-data">
+        {% csrf_token %}
         <h4 class="mb-4">Update a blog</h4>
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -24,7 +25,9 @@
             type="text"
             class="form-control"
             id="title"
+            name="title"
             placeholder="Enter title"
+            value="{{ title }}"
             required
           />
         </div>
@@ -33,15 +36,33 @@
           <textarea
             class="form-control"
             id="description"
+            name="description"
             placeholder="Enter description"
             rows="10"
             required
-          ></textarea>
+          >
+{{ description }}</textarea
+          >
         </div>
         <div class="mb-3">
-          <label for="featuredImage" class="form-label">Featured Image</label>
-          <input type="file" class="form-control" id="featuredImage" required />
+          <label for="featured_image" class="form-label">Featured Image</label>
+          <input
+            type="file"
+            class="form-control"
+            id="featured_image"
+            name="featured_image"
+          />
         </div>
+        {% if featured_image %}
+        <div class="mb-3">
+          {% load static %}
+          <img
+            src="{% static featured_image %}"
+            alt="{{ title }}"
+            class="img-fluid"
+          />
+        </div>
+        {% endif %}
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

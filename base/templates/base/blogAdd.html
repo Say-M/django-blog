@@ -16,7 +16,7 @@
   <body>
     {% include './common/header.html' %}
     <div class="container">
-      <form action="/create-blog/" method="post" class="my-5">
+      <form action="" method="post" class="my-5" enctype="multipart/form-data">
         {% csrf_token %}
         <h4 class="mb-4">Create a blog</h4>
         <div class="mb-3">
@@ -43,7 +43,6 @@
             required
           ></textarea>
         </div>
-        {% comment %}
         <div class="mb-3">
           <label for="featured_image" class="form-label">Featured Image</label>
           <input
@@ -54,7 +53,6 @@
             required
           />
         </div>
-        {% endcomment %}
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>

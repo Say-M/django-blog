@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile of {{ user.username }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+      integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    {% include '../common/header.html' %}
+    <div class="container my-5 py-5">
+      <form
+        action=""
+        method="post"
+        class="border p-3 rounded mx-auto"
+        style="max-width: 500px"
+      >
+        <h5 class="mb-4">Edit profile of {{ request.user.username }}</h5>
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+            value="{{ request.user.username }}"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="form-control"
+            value="{{ request.user.email }}"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="first_name" class="form-label">First name</label>
+          <input
+            type="text"
+            name="first_name"
+            id="first_name"
+            class="form-control"
+            value="{{ request.user.first_name }}"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="last_name" class="form-label">Last name</label>
+          <input
+            type="text"
+            name="last_name"
+            id="last_name"
+            class="form-control"
+            value="{{ request.user.last_name }}"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Update</button>
+      </form>
+    </div>
+    {% include '../common/footer.html' %}
+  </body>
+</html>

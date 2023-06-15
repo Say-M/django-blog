@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Details</title>
+    <title>{{ blog.title }}</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
@@ -17,13 +17,74 @@
     {% include './common/header.html' %}
     <div class="container">
       <article class="blog-post my-5">
-        <h2 class="blog-post-title mb-1">{{ title }}</h2>
+        <h2 class="blog-post-title mb-1">{{ blog.title }}</h2>
         <p class="blog-post-meta">
-          January 1, 2021 by <a href="#">{{user}}</a>
+          {{ blog.created_at }} by <a href="#">{{ blog.user }}</a>
         </p>
-
-        <p>{{ description }}</p>
+        {% load static %}
+        <img
+          src="{% static blog.featured_image %}"
+          alt="{{ blog.title }}"
+          class="img-fluid my-3 mx-auto d-block"
+        />
+        <p>{{ blog.description }}</p>
+        {% if request.user == blog.user %}
+        <div class="text-end">
+          <a href="/blog/edit/{{ blog.id }}" class="btn btn-sm btn-primary"
+            >Edit</a
+          >
+          <a href="/blog/delete/{{ blog.id }}" class="btn btn-sm btn-danger"
+            >Delete</a
+          >
+        </div>
+        {% endif %}
       </article>
+      <div class="border-top py-4">
+        <div style="max-width: 700px">
+          <h5 class="mb-3">Write a comment</h5>
+          {% if request.user.is_authenticated %}
+          <form action="" method="post">
+            {% csrf_token %}
+            <textarea
+              class="form-control mb-3"
+              name="comment"
+              rows="5"
+            ></textarea>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          {% else %}
+          <div class="alert alert-danger">
+            <p class="mb-0">You need to login to comment</p>
+          </div>
+          {% endif %}
+          <div class="list-group mt-4">
+            {% for comment in comments %}
+            <div class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                  <a
+                    class="text-decoration-none link-dark"
+                    href="/user/{{ comment.user.id }}"
+                    >{{ comment.user }}</a
+                  >
+                </h5>
+                <small>{{ comment.created_at }}</small>
+              </div>
+              <p class="mb-1">{{ comment.comment }}</p>
+              {% if request.user == comment.user %}
+              <div class="text-end">
+                <a
+                  href="/comment/delete/{{ comment.id }}"
+                  class="btn btn-sm btn-danger"
+                  >Delete</a
+                >
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
 
     {% include './common/footer.html' %}

@@ -22,14 +22,15 @@
           {% for blog in blogs %}
           <div class="col">
             <div class="card shadow-sm">
+              {% comment %} ! when we get image from static then we must have to
+              load static {% endcomment %} {% load static %}
               <img
-                src="https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg"
+                src="{% static blog.featured_image %}"
+                alt="{{ blog.title }}"
                 class="bd-placeholder-img card-img-top"
+                style="object-fit: cover"
                 width="100%"
                 height="225"
-                aria-label="Placeholder: Thumbnail"
-                preserveaspectratio="xMidYMid slice"
-                focusable="false"
               />
               <div class="card-body">
                 <h6>{{blog.title}}</h6>
@@ -42,14 +43,15 @@
                     >
                       View
                     </a>
-                    <button
-                      type="button"
+                    {% if request.user == blog.user %}
+                    <a
+                      href="/blog/edit/{{blog.id}}"
                       class="btn btn-sm btn-outline-secondary"
                     >
-                      Edit
-                    </button>
+                      Edit </a
+                    >{% endif %}
                   </div>
-                  <small class="text-body-secondary">9 mins</small>
+                  <small class="text-body-secondary">{{blog.created_at}}</small>
                 </div>
               </div>
             </div>
